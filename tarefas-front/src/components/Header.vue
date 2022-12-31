@@ -1,11 +1,13 @@
 <template>
   <header>
-    <div div class="info">
-      <CheckCircle />
-      <span>Task Manager</span>
-    </div>
+    <a @click="this.$router.push('/')">
+      <div class="info">
+        <CheckCircle />
+        <span>Task Manager</span>
+      </div>
+    </a>
 
-    <button>
+    <button @click="this.$router.push('/form')">
       <div class="info">
         <span> Cadastrar tarefa </span>
         <Plus />

@@ -3,7 +3,14 @@
     <section class="to-do">
       <span>A fazer</span>
       <div class="tarefas">
-        <Tarefas />
+        <Tarefas
+          :infoTarefa="{
+            prazo: '10/10/2023',
+            task: 'Fazer o trabalho',
+            categoria: 'Estudos',
+            prioridade: 'Urgente',
+          }"
+        />
       </div>
     </section>
     <section class="done">
@@ -13,7 +20,7 @@
 </template>
 
 <script>
-import Tarefas from "../components/tarefas.vue";
+import Tarefas from "../components/Tarefas.vue";
 
 export default { components: { Tarefas } };
 </script>
