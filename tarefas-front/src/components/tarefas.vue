@@ -3,7 +3,13 @@
     <div class="tarefa">
       <span>{{ infoTarefa.task }}</span>
       <button>
-        <Arrow />
+        <div v-if="infoTarefa.realizada">
+          <ArrowLeft />
+          <TrashSimple />
+        </div>
+        <div v-else>
+          <ArrowRight />
+        </div>
       </button>
     </div>
 
@@ -28,7 +34,9 @@
 </template>
 
 <script>
-import Arrow from "../assets/arrow-right.svg";
+import ArrowRight from "../assets/arrow-right.svg";
+import ArrowLeft from "../assets/arrow-left.svg";
+import TrashSimple from "../assets/trash-simple.svg";
 import PrioridadeIconVue from "./Prioridade-icon.vue";
 
 export default {
@@ -36,9 +44,20 @@ export default {
     infoTarefa: {
       type: Object,
     },
+    // deletar: {
+    //   type: Function,
+    // },
+    // realizar: {
+    //   type: Function,
+    // },
+    // undoRealizar: {
+    //   type: Function,
+    // },
   },
   components: {
-    Arrow,
+    ArrowRight,
+    ArrowLeft,
+    TrashSimple,
     PrioridadeIconVue,
   },
 };
@@ -66,6 +85,11 @@ export default {
     button {
       background-color: white;
       border: 0;
+
+      div {
+        display: flex;
+        gap: 28px;
+      }
     }
   }
 

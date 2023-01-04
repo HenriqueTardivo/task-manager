@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TarefaRepository extends JpaRepository<Tarefa, Integer> {
 
-    @Query("select max(s.id) from Student s")
+    @Query("select max(id) from Tarefa ")
     public Integer findMaxId();
 }

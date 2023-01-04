@@ -2,27 +2,92 @@
   <div class="task-container">
     <section class="to-do">
       <span>A fazer</span>
-      <div class="tarefas">
+      <div class="tarefas" v-for="tarefa in pendentes">
         <Tarefas
           :infoTarefa="{
-            prazo: '10/10/2023',
-            task: 'Fazer o trabalho',
-            categoria: 'Estudos',
-            prioridade: 'Urgente',
+            id: tarefa.id,
+            prazo: tarefa.dataDeEntrega,
+            task: tarefa.task,
+            categoria: tarefa.categoria,
+            prioridade: tarefa.prioridade,
+            realizada: tarefa.realizada,
           }"
         />
       </div>
     </section>
     <section class="done">
       <span>Feito</span>
+      <div class="tarefas" v-for="tarefa in realizadas">
+        <Tarefas
+          :infoTarefa="{
+            id: tarefa.id,
+            prazo: tarefa.dataDeEntrega,
+            task: tarefa.task,
+            categoria: tarefa.categoria,
+            prioridade: tarefa.prioridade,
+            realizada: tarefa.realizada,
+          }"
+        />
+      </div>
     </section>
   </div>
 </template>
 
 <script>
 import Tarefas from "../components/Tarefas.vue";
+import axios from "axios";
 
-export default { components: { Tarefas } };
+export default {
+  data() {
+    return {
+      pendentes: null,
+      realizadas: null,
+      refresh: true,
+    };
+  },
+  components: {
+    Tarefas,
+  },
+  mounted() {
+    this.buscaDados();
+  },
+  watch: {
+    refresh() {
+      this.buscaDados();
+    },
+  },
+  methods: {
+    buscaDados() {
+      axios.get("http://localhost:8080/tarefa").then((response) => {
+        const result = response.data.reduce(
+          (acc, curr) => {
+            curr.realizada
+              ? acc.realizadas.push(curr)
+              : acc.pendentes.push(curr);
+
+            return acc;
+          },
+          {
+            pendentes: [],
+            realizadas: [],
+          }
+        );
+
+        this.pendentes = result.pendentes;
+        this.realizadas = result.realizadas;
+      });
+    },
+    handle(operacao, id) {
+      switch (operacao) {
+        case "deletar":
+
+        case "realizar":
+
+        case "undoRealizar":
+      }
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -40,12 +105,13 @@ section {
   //   border: 2px solid;
   padding: 15px;
   width: 100%;
-  height: 500px;
+  height: 600px;
   background-color: #e0e0e0;
   border-radius: 10px;
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
+  overflow-y: scroll;
 
   span {
     text-align: center;
@@ -55,11 +121,10 @@ section {
   }
 
   .tarefas {
-    width: 100%;
-    margin-top: 20px;
-    margin-bottom: 20px;
     display: flex;
     justify-content: center;
+    width: 100%;
+    margin-top: 10px;
   }
 }
 </style>

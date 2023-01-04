@@ -1,28 +1,28 @@
 <template>
   <div class="formContainer">
-    <form action="">
+    <form @submit.prevent="submit">
       <div class="center">
         <span> Cadastro de tarefas </span>
       </div>
 
       <div>
-        <label for="tarefa">Tarefa</label>
-        <textarea rows="4" name="tarefa"></textarea>
+        <label for="task">Tarefa</label>
+        <textarea rows="4" name="task" v-model="task"></textarea>
       </div>
 
       <div>
-        <label for="tarefa">Data de entrega</label>
-        <input type="date" name="tarefa" />
+        <label for="dataDeEntrega">Data de entrega</label>
+        <input type="date" name="dataDeEntrega" v-model="dataDeEntrega" />
       </div>
 
       <div>
         <label for="categoria">Categoria</label>
-        <select type="text" name="categoria">
-          <option value="trabalho">Trabalho</option>
-          <option value="estudos">Estudos</option>
-          <option value="lazer">Lazer</option>
-          <option value="pessoal">Desenvolvimento pessoal</option>
-          <option value="outros">Outros</option>
+        <select name="categoria" v-model="categoria">
+          <option value="Trabalho">Trabalho</option>
+          <option value="Estudos">Estudos</option>
+          <option value="Lazer">Lazer</option>
+          <option value="Pessoal">Desenvolvimento pessoal</option>
+          <option value="Outros">Outros</option>
         </select>
       </div>
 
@@ -35,7 +35,8 @@
               type="radio"
               id="prioridade1"
               name="prioridade"
-              value="b"
+              v-model="prioridade"
+              value="Baixa"
               class="baixa"
             />
           </div>
@@ -46,7 +47,8 @@
               type="radio"
               id="prioridade2"
               name="prioridade"
-              value="m"
+              v-model="prioridade"
+              value="Media"
               class="media"
             />
           </div>
@@ -57,7 +59,8 @@
               type="radio"
               id="prioridade3"
               name="prioridade"
-              value="a"
+              v-model="prioridade"
+              value="Alta"
               class="alta"
             />
           </div>
@@ -68,7 +71,8 @@
               type="radio"
               id="prioridade4"
               name="prioridade"
-              value="u"
+              v-model="prioridade"
+              value="Urgente"
               class="urgente"
             />
           </div>
@@ -79,11 +83,31 @@
     </form>
   </div>
 </template>
-
 <script lang="js">
-export default {};
-</script>
+import axios from 'axios';
 
+export default {
+  data() {
+    return {
+      task: null,
+      categoria: null,
+      dataDeEntrega: null,
+      prioridade: null,
+    }
+  },
+  methods: {
+    async submit() {
+      await axios.post("http://localhost:8080/tarefa",{
+        task: this.task,
+        categoria: this.categoria,
+        prioridade: this.prioridade,
+        dataDeEntrega: this.dataDeEntrega,
+        realizada: false
+      }).finally(()=> this.$router.push('/'))
+    }
+  }
+};
+</script>
 <style lang="scss" scoped>
 .center {
   text-align: center;
