@@ -80,21 +80,26 @@ export default {
       });
     },
     handle({ operacao, id }) {
+      console.log(operacao, id);
+
       switch (operacao) {
         case "deletar":
           axios
             .delete("http://localhost:8080/tarefa/" + id)
             .then(() => (this.refresh = !this.refresh));
+          break;
 
         case "realizar":
           axios
-            .patch("http://localhost:8080/tarefa/" + id)
+            .patch("http://localhost:8080/tarefa/" + id + "/realizar")
             .then(() => (this.refresh = !this.refresh));
+          break;
 
         case "undoRealizar":
           axios
-            .patch("http://localhost:8080/tarefa/" + id)
+            .patch("http://localhost:8080/tarefa/" + id + "/undoRealizar")
             .then(() => (this.refresh = !this.refresh));
+          break;
       }
     },
   },

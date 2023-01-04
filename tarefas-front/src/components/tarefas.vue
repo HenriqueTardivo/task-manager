@@ -59,8 +59,8 @@ export default {
     PrioridadeIconVue,
   },
   methods: {
-    handleTarefa(id, action) {
-      this.$emit("clicked", { id, action });
+    handleTarefa(id, operacao) {
+      this.$emit("clicked", { id, operacao });
     },
   },
 };

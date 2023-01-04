@@ -35,13 +35,18 @@ public class TarefaController {
         return tarefaService.readTarefas();
     }
 
-    @RequestMapping(value = "tarefa/{id}", method = RequestMethod.PATCH)
-    public String updateTarefa(@PathVariable("id") int id, @RequestBody Boolean realizada) {
-        return tarefaService.updateTarefaRealizada(id, realizada);
+    @RequestMapping(value = "tarefa/{id}/realizar", method = RequestMethod.PATCH)
+    public String realizarTarefa(@PathVariable("id") int id) {
+        return tarefaService.updateTarefaRealizada(id, true);
     }
 
-    @RequestMapping(value = "tarefas", method = RequestMethod.DELETE)
-    public String deleteTarefa(@RequestBody int id) {
+    @RequestMapping(value = "tarefa/{id}/undoRealizar", method = RequestMethod.PATCH)
+    public String undoRealizarTarefa(@PathVariable("id") int id) {
+        return tarefaService.updateTarefaRealizada(id, false);
+    }
+
+    @RequestMapping(value = "tarefa/{id}", method = RequestMethod.DELETE)
+    public String deleteTarefa(@PathVariable("id") int id) {
         return tarefaService.deleteTarefa(id);
     }
 }
