@@ -12,6 +12,7 @@
             prioridade: tarefa.prioridade,
             realizada: tarefa.realizada,
           }"
+          @clicked="handle"
         />
       </div>
     </section>
@@ -27,6 +28,7 @@
             prioridade: tarefa.prioridade,
             realizada: tarefa.realizada,
           }"
+          @clicked="handle"
         />
       </div>
     </section>
@@ -77,13 +79,22 @@ export default {
         this.realizadas = result.realizadas;
       });
     },
-    handle(operacao, id) {
+    handle({ operacao, id }) {
       switch (operacao) {
         case "deletar":
+          axios
+            .delete("http://localhost:8080/tarefa/" + id)
+            .then(() => (this.refresh = !this.refresh));
 
         case "realizar":
+          axios
+            .patch("http://localhost:8080/tarefa/" + id)
+            .then(() => (this.refresh = !this.refresh));
 
         case "undoRealizar":
+          axios
+            .patch("http://localhost:8080/tarefa/" + id)
+            .then(() => (this.refresh = !this.refresh));
       }
     },
   },

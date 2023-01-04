@@ -4,11 +4,18 @@
       <span>{{ infoTarefa.task }}</span>
       <button>
         <div v-if="infoTarefa.realizada">
-          <ArrowLeft />
-          <TrashSimple />
+          <a @click="handleTarefa(infoTarefa.id, 'undoRealizar')">
+            <ArrowLeft />
+          </a>
+
+          <a @click="handleTarefa(infoTarefa.id, 'deletar')">
+            <TrashSimple />
+          </a>
         </div>
         <div v-else>
-          <ArrowRight />
+          <a @click="handleTarefa(infoTarefa.id, 'realizar')">
+            <ArrowRight />
+          </a>
         </div>
       </button>
     </div>
@@ -44,21 +51,17 @@ export default {
     infoTarefa: {
       type: Object,
     },
-    // deletar: {
-    //   type: Function,
-    // },
-    // realizar: {
-    //   type: Function,
-    // },
-    // undoRealizar: {
-    //   type: Function,
-    // },
   },
   components: {
     ArrowRight,
     ArrowLeft,
     TrashSimple,
     PrioridadeIconVue,
+  },
+  methods: {
+    handleTarefa(id, action) {
+      this.$emit("clicked", { id, action });
+    },
   },
 };
 </script>
